@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+"http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!-- 配置 Bean 的开始，根节点 Beans 中包含一个或多个 Bean 元素 -->
+<beans>
+
+	<!-- 定义一个Bean，id是这个bean的唯一标识， class指出这个bean的来源，singleton指定是否是单例模式 -->
+	<bean id="HelloWorld1" class="com.pro.action.HelloWorld2">
+		<!-- 配置 Bean 的开始 -->
+		<property name="msg">
+			<value>HelloWorld</value>
+		</property>
+		
+	<!-- 定义上面 Bean 的结束 -->
+	</bean>
+	
+	<!-- 定义一个Bean，通过构造函数进行注入 -->
+	<bean id="HelloWorld" class="com.pro.action.HelloWorld">
+		<!-- 通过构造函数进行注入 -->
+		<constructor-arg index="0">
+			<value>HelloWorld构造函数注入测试</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>txt内容</value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 定义一个Bean，通过Setter方式初始化 -->
+	<!-- 使用depends-on 是，依赖的 Bean 必须先进行初始化 -->
+	<bean id="HelloWorld2" class="com.pro.action.HelloWorld2" depends-on="date">
+		<property name="msg">
+			<value>HelloWorld2(Setter方式)</value>
+		</property>
+		
+		<!-- date变量通过依赖注入来完成 -->
+		<property name="date">
+			<ref bean="date"/>
+		</property>
+	</bean>
+	<bean id="date" class="java.util.Date"/>
+	
+	<bean id="Hello" class="com.pro.service.impl.ChHello">
+		<property name="msg">
+			<value>汤姆</value>
+		</property>
+	</bean>
+	<bean id="EnHello" class="com.pro.service.impl.EnHello">
+		<property name="msg">
+			<value>Tom</value>
+		</property>
+	</bean>
+	
+	<!-- 定义一个Bean，id是这个bean的唯一标识， class指出这个bean的来源，init-method为初始化方法-->
+		<!-- Bean 的初始化通过 init-method指定的初始化方法实现 -->
+	<bean id="HelloWorld3" class="com.pro.action.HelloWorld2" init-method="init">
+		
+	<!-- 定义上面 Bean 的结束 -->
+	</bean>
+	
+	<!-- 定义一个Bean，id是这个bean的唯一标识， class指出这个bean的来源-->
+		<!-- Bean 的初始化方法通过实现 InitializingBean 接口 -->
+	<bean id="HelloWorld4" class="com.pro.action.HelloWorld3">
+		
+	<!-- 定义上面 Bean 的结束 -->
+	</bean>
+	
+<!-- 配置 Bean 的结束 -->
+</beans>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+"http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!-- 配置 Bean 的开始，根节点 Beans 中包含一个或多个 Bean 元素 -->
+<beans>
+
+	<!-- 定义一个Bean，id是这个bean的唯一标识， class指出这个bean的来源，singleton指定是否是单例模式 -->
+	<bean id="HelloWorld1" class="com.pro.bean.HelloWorld2">
+		<!-- 配置 Bean 的开始 -->
+		<property name="msg">
+			<value>HelloWorld</value>
+		</property>
+		
+	<!-- 定义上面 Bean 的结束 -->
+	</bean>
+	
+	<!-- 定义一个Bean，通过构造函数进行注入 -->
+	<bean id="HelloWorld" class="com.pro.bean.HelloWorld">
+		<!-- 通过构造函数进行注入 -->
+		<constructor-arg index="0">
+			<value>HelloWorld构造函数注入测试</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>txt内容</value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 定义一个Bean，通过Setter方式初始化 -->
+	<!-- 使用depends-on 是，依赖的 Bean 必须先进行初始化 , autowire是指定自动装配的方式-->
+	<bean id="HelloWorld2" class="com.pro.bean.HelloWorld2" depends-on="date" autowire="byType">
+		<property name="msg">
+			<value>HelloWorld2(Setter方式)</value>
+		</property>
+		
+		<!-- date变量通过依赖注入来完成 -->
+		<property name="date">
+			<ref bean="date"/>
+			<!-- <ref local=""/> -->
+		</property>
+	</bean>
+	<bean id="date" class="java.util.Date"/>
+	
+	<bean id="Hello" class="com.pro.service.impl.ChHello">
+		<property name="msg">
+			<value>汤姆</value>
+		</property>
+	</bean>
+	<bean id="EnHello" class="com.pro.service.impl.EnHello">
+		<property name="msg">
+			<value>Tom</value>
+		</property>
+	</bean>
+	
+	<!-- 定义一个Bean，id是这个bean的唯一标识， class指出这个bean的来源，init-method为初始化方法-->
+		<!-- Bean 的初始化通过 init-method指定的初始化方法实现 -->
+	<bean id="HelloWorld3" class="com.pro.bean.HelloWorld2" init-method="init" destroy-method="cleanup">
+		
+	<!-- 定义上面 Bean 的结束 -->
+	</bean>
+	
+	<!-- 定义一个Bean，id是这个bean的唯一标识， class指出这个bean的来源-->
+		<!-- Bean 的初始化方法通过实现 InitializingBean 接口 -->
+	<bean id="HelloWorld4" class="com.pro.bean.HelloWorld3">
+		
+	<!-- 定义上面 Bean 的结束 -->
+	</bean>
+	
+	<!-- 定义一个Bean，通过自动装配对构造函数初始化 -->
+	<bean id="HelloWorld5" class="com.pro.bean.HelloWorld" autowire="constructor">
+		<constructor-arg index="0">
+			<value>HelloWorld(autowire等于constructor)</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>txt内容</value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 定义一个Bean，通过自动装配对构造函数初始化 -->
+	<bean id="HelloWorldForCollection" class="com.pro.bean.HelloWorldForCollection">
+		<property name="msg">
+			<!-- 集合 list 元素的配置方式 -->
+			<list>
+				<value>小火龙</value>
+				<value>杰尼龟</value>
+				<value>妙蛙种子</value>
+			</list>
+		</property>
+		<property name="dat">
+			<set>
+				<value>火恐龙</value>
+				<value>卡咪龟</value>
+				<value>妙蛙草</value>
+			</set>
+		</property>
+		<property name="map">
+			<map>
+				<entry key="huo">
+					<value>喷火龙</value>
+				</entry>
+				<entry key="shui">
+					<value>水箭龟</value>
+				</entry>
+				<entry key="cao">
+					<value>妙蛙花</value>
+				</entry>
+			</map>
+		</property>
+		<property name="pro">
+			<props>
+				<prop key="dian">皮卡丘</prop>
+				<prop key="dtwo">雷丘</prop>
+			</props>
+		</property>
+	</bean>
+	
+<!-- 配置 Bean 的结束 -->
+</beans>
