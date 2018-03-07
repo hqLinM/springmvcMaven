@@ -4,6 +4,13 @@
 
 <!-- 配置 Bean 的开始，根节点 Beans 中包含一个或多个 Bean 元素 -->
 <beans>
+	<!-- 负责国际化支持 -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename">
+			<!-- 国际化支持的定义在文件名为messages的文件中 -->
+			<value>message/messages</value>
+		</property>
+	</bean>
 
 	<!-- 定义一个Bean，id是这个bean的唯一标识， class指出这个bean的来源，singleton指定是否是单例模式 -->
 	<bean id="HelloWorld1" class="com.pro.bean.HelloWorld2">
@@ -113,6 +120,11 @@
 			</props>
 		</property>
 	</bean>
+	
+	<!-- 负责事件传递 -->
+	<bean id="log" class="com.pro.action.Log"></bean>
+	<bean id="listener" class="com.pro.action.LogListener"></bean>
+	
 	
 <!-- 配置 Bean 的结束 -->
 </beans>

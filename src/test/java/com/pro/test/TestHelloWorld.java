@@ -1,8 +1,15 @@
 package com.pro.test;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Locale;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.core.io.Resource;
 
+import com.pro.action.Log;
 import com.pro.bean.HelloWorld;
 import com.pro.bean.HelloWorld2;
 import com.pro.bean.HelloWorld3;
@@ -48,7 +55,16 @@ public class TestHelloWorld {
 //		getBeanContext7();
 		
 		//bean中集合元素测试
-		getBeanContext8();
+//		getBeanContext8();
+		
+		//国际化测试
+		messageTest();
+		
+		//获取文件测试
+//		getFilet();
+		
+		//事件传递测试
+//		logTest();
 	}
 	
 	/**
@@ -182,5 +198,52 @@ public class TestHelloWorld {
 		//xml中的bean默认是单例，直接new一个就是新的，不是取xml
 		HelloWorld2 helloWorld3 = new HelloWorld2();
 		System.out.println("helloWorld3:" + helloWorld3.getMsg());
+	}
+	
+	/**
+	 * 获取国际化
+	 * 
+	 * @return void
+	 */
+	public static void messageTest() {
+		//设定当前时间
+		Object[] objs = new Object[]{ "HelloMyFriend", Calendar.getInstance().getTime() };
+		
+		//国际化支持
+		String msg = actx.getMessage("HelloWorld", objs, Locale.CHINA);
+		System.out.println(msg);
+	}
+	
+	/**
+	 * 从ApplicationContext 获取文件
+	 * 
+	 * @return void
+	 */
+	public static void getFilet() {
+		Resource resource = actx.getResource("classpath:message/messages.properties");
+		try {
+			
+			//判断文件是否存在
+			if (resource.exists()) {
+				
+				//获取文件
+				File file = resource.getFile();
+				System.out.println(file.length());				
+			} else {
+				System.out.println("文件不存在");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 事件传递
+	 * 
+	 * @return void
+	 */
+	public static void logTest() {
+		Log log = (Log) actx.getBean("log");
+		log.log("gf");
 	}
 }
